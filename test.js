@@ -25,21 +25,23 @@ function init() {
     });
     
     // 几何体
-    let cube = new THREE.Mesh(new THREE.CubeGeometry(1, 2, 3, 2, 2, 3), material);
-    scene.add(cube);
     for (var i = 0; i < 10; i++) {
-        let cube0 = cube.clone();
-        cube0.position.set( (Math.random() - 0.5)*20, 0, (Math.random() - 0.5)*20);
-        scene.add(cube0);
+        let height = 1 + Math.random() * 5;
+        let cube = new THREE.Mesh(new THREE.BoxGeometry(1, height, 2), material);
+        cube.position.set( (Math.random() - 0.5)*30, height / 2, (Math.random() - 0.5)*30);
+        scene.add(cube);
     }
     let geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
     material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
     let sphere = new THREE.Mesh( geometry, material );
-    sphere.position.set(10,10,0);
-    //sphere.position = new THREE.Vector3(0,10,0);
+    sphere.position.set(0,10,0);
     scene.add( sphere );
     
-    var axesHelper = new THREE.AxesHelper( 10 );
+    var plane = new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
+    var helper = new THREE.PlaneHelper( plane, 30, 0x000000 );
+    scene.add( helper );
+
+    var axesHelper = new THREE.AxesHelper( 40 );
     scene.add( axesHelper );
 
     // 渲染
