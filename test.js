@@ -1,15 +1,21 @@
+var renderer;
+var camera;
+var scene;
+var ticks;
+
 function init() {
+    ticks = 0;
     // 渲染
-    let renderer = new THREE.WebGLRenderer();
-    renderer.setSize(innerWidth, innerHeight);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     renderer.setClearColor(0xffffff);
 
     // 场景
-    let scene = new THREE.Scene();
+    scene = new THREE.Scene();
     
     // 相机
-    let camera = new THREE.PerspectiveCamera( 45, innerWidth / innerHeight, 1, 1000 );
+    camera = new THREE.PerspectiveCamera( 45, innerWidth / innerHeight, 1, 1000 );
     camera.position.set(25, 25, 25);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
@@ -34,7 +40,7 @@ function init() {
     let geometry = new THREE.SphereGeometry( 0.3, 32, 32 );
     material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
     let sphere = new THREE.Mesh( geometry, material );
-    sphere.position.set(0,10,0);
+    sphere.position.set(0,5,0);
     scene.add( sphere );
     
     var plane = new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 );
@@ -43,9 +49,18 @@ function init() {
 
     var axesHelper = new THREE.AxesHelper( 40 );
     scene.add( axesHelper );
+}
 
-    // 渲染
-    renderer.render(scene, camera);
+function animate() {
+    requestAnimationFrame( animate );
+    let step = 0.001;
+    let range = 25;
+    camera.position.set(range * Math.sin(ticks * step), range - 10, range * Math.cos(ticks * step));
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    ticks += 1;
+    renderer.render( scene, camera );
 }
 
 init();
+
+animate();
