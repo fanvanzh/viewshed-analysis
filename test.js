@@ -90,6 +90,11 @@ function animate() {
     renderer.render( scene, camera );
 }
 
+onresize = function resize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+}
+
 init();
 
 animate();
